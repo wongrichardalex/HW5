@@ -1,11 +1,12 @@
+package src;
 
-// javaFX skeleton
 import javafx.application.*;
 import javafx.scene.*;
 import javafx.stage.*;
 import javafx.scene.layout.*;
 
-public class DiceGUI extends Application {
+public class DiceGUI extends Application{
+
 	public static void main(String[] args) {
 		System.out.println("Launching JavaFX application");
 		// Start the JavaFX application by calling launch()
