@@ -23,6 +23,7 @@ import javafx.scene.text.FontWeight;
 
 public class DiceGUI extends Application{
 	
+	//some global variables to help us during execution
 	private String betString = "";
 	private Boolean clearFlag = false;
 	private TextField results;
@@ -48,11 +49,14 @@ public class DiceGUI extends Application{
 		//is used, but several alternatives exist
 		BorderPane rootNode = new BorderPane();
 		
+		
+		//Create the HBox for the dices and set the height, width, and alignment
 		HBox diceHBox = new HBox(20);
 		diceHBox.setPrefHeight(60);
 		diceHBox.setPrefWidth(400);
 		diceHBox.setAlignment(Pos.CENTER);
 		
+		//Create the Dices
 		Image diceUno = new Image("/images/one.png", 200, 200, false, false);
 		Label dice1 = new Label();
 		dice1.setGraphic(new ImageView(diceUno));
@@ -63,20 +67,24 @@ public class DiceGUI extends Application{
 		dice2.setGraphic(new ImageView(diceDos));
 		dice2.setPrefSize(50, 50);
 		
+		//add them to the Hbox
 		diceHBox.getChildren().add(dice1);
 		diceHBox.getChildren().add(dice2);
 		
+		//Add the dice HBox to the correct position on the GridPane
 		rootNode.setCenter(diceHBox);
 		
+		//Create the HBox for the row of bottoms and text fields at the bottom
 		HBox hbox = new HBox(25);
 		hbox.setPrefWidth(1000);
 		hbox.setPadding(new Insets(15, 12, 15, 12));
 		
-		//add label
+		//add label for Your Bet:, alter the font and everything
 		Label yourBet = new Label("Your Bet:");
 		yourBet.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 		hbox.getChildren().add(yourBet);
 		
+		//add TextField for user to enter bet
 		TextField bet = new TextField();
 		bet.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 
