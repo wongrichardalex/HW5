@@ -1,5 +1,15 @@
 package src;
 
+/*
+ * Author: Richard Wong
+ * 
+ * Program: DiceGUI
+ * 
+ * Program Behavior: This program represents the model, view, and controller for
+ * a dice rolling game.  The game is played by having the user guess a number from
+ * 2 - 12 inclusive, and "rolling" two dice in hopes that the guess will be equal
+ * to the sum of the dice after rolling. 
+ */
 import java.util.Random;
 
 import javafx.application.*;
@@ -223,7 +233,8 @@ public class DiceGUI extends Application{
 			return false; //return false to show that we did not set both dice
 		}
 		
-		//call the setDice method which randomly changes one dice, representing a dice roll
+		//call the setDice method which randomly returns a number 1 - 6 while setting the label graphic to the 
+		//corresponding dice image, representing a dice roll
 		int dice1Val = setDice(dice1); 
 		int dice2Val = setDice(dice2);
 		
@@ -236,26 +247,39 @@ public class DiceGUI extends Application{
 		return true;
 	}
 	
+	/*
+	 * This chooses a random number from 1 - 6 and sets the Label parameter graphic to the corresponding Dice image located in the
+	 * src/images folder, and returns that randomly chosen number
+	 */
 	private int setDice(Label dice) {
 		int roll = rollDice();
 		Image diceImage = null; 
+		
+		String image = "";
+		
+		//A series of statements to assign the image to the right number
 		if(roll == 0) {
-			diceImage = new Image("/images/one.png", 200, 200, false, false);
+			image = "/images/one.png";
 		} else if (roll == 1) {
-			diceImage = new Image("/images/two.png", 200, 200, false, false);
+			image = "/images/two.png";
 		} else if (roll == 2) {
-			diceImage = new Image("/images/three.png", 200, 200, false, false);
+			image = "/images/three.png";
 		} else if (roll == 3) {
-			diceImage = new Image("/images/four.png", 200, 200, false, false);
+			image = "/images/four.png";
 		} else if (roll == 4) {
-			diceImage = new Image("/images/five.png", 200, 200, false, false);
+			image = "/images/five.png";
 		} else if (roll == 5) {
-			diceImage = new Image("/images/six.png", 200, 200, false, false);
+			image = "/images/six.png";
 		}
-		dice.setGraphic(new ImageView(diceImage));
-		return roll+1;
+		
+		diceImage = new Image(image, 200, 200, false, false);
+		dice.setGraphic(new ImageView(diceImage)); //set our graphic for the label
+		return roll+1; //return the number picked to the caller for use in determining if the user bet correctly
 	}
 	
+	/*
+	 * returns a random number from 0-5 inclusive
+	 */
 	private int rollDice() {
 		Random r = new Random();
 		return r.nextInt(6);
