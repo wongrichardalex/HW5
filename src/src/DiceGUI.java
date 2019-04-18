@@ -93,17 +93,20 @@ public class DiceGUI extends Application{
 		hbox.getChildren().add(bet);
 		
 		// add Buttons
+		
+		//roll Dice button
 		Button rollDice = new Button ("Roll Dice");
 		rollDice.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 		rollDice.setPadding(new Insets(5, 5, 5, 5));
 		hbox.getChildren().add(rollDice);
 		
+		//exit button
 		Button exit = new Button ("Exit");
 		exit.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 		exit.setPadding(new Insets(5, 5, 5, 5));
 		hbox.getChildren().add(exit);
 		
-		//add TextField
+		//add TextField for results
 		results = new TextField();
 		results.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 		results.setPrefWidth(500);
@@ -115,6 +118,7 @@ public class DiceGUI extends Application{
 		
 		hbox.setAlignment(Pos.CENTER);
 		
+		//add the Hbox for the bottom row to our layout
 		rootNode.setBottom(hbox);
 		
 		//create a scene
@@ -126,72 +130,72 @@ public class DiceGUI extends Application{
 		
 		//show the stage and its scene
 		
+		//these will be the colors for the bet textfield
 		String blank = "-fx-background-color: #ffffff;";
 		String red = "-fx-background-color: #ff0000;";
 		
+		//here is our exit button action handler
 		exit.setOnAction(new EventHandler<ActionEvent>()
 		{
 			public void handle(ActionEvent e) {
+				//we simply stop the program and exit
 				stop();
 				System.exit(0);
 			}
 		});
 		
-		
+		//heree is our handler for the dice button to roll them
 		rollDice.setOnAction(new EventHandler<ActionEvent>()
 		{
 			public void handle(ActionEvent e) {
 
-				if(!setBothDice(dice1, dice2)) {
-					bet.setStyle(red);
+				if(!setBothDice(dice1, dice2)) { //if there is invalid input in the text box
+					bet.setStyle(red); //set our background to red
 				} else {
-					clearFlag = true;
+					clearFlag = true; //this means input is valid; we need to clear the textbox if the user types
+					 				 //something in again
 				}
 			}
 		});
 		
-		
+		//here is our handler for the bet TextField, which will trigger whenever a button on the keyboard is pressed
 		bet.setOnKeyPressed(new EventHandler<KeyEvent>()
 		{
 	
 			public void handle(KeyEvent e) {
 				
-				if(clearFlag == true) {
+				if(clearFlag == true) { //if the user entered valid input before, we need to clear the textfield
 					betString = "";
 					bet.setText(betString);
+					clearFlag = false;
 				}
 
 				
-				results.setText("");
+				results.setText(""); //if the user enters anything into the bet textfield, we need to reset the results textfield
 				
-				if(e.getCode().equals(KeyCode.DELETE) || e.getCode().equals(KeyCode.BACK_SPACE)) {
+				if(e.getCode().equals(KeyCode.DELETE) || e.getCode().equals(KeyCode.BACK_SPACE)) { //if the user is deleting characters
 					bet.setStyle(blank);
-					if(betString.length() >= 1) {
+					if(betString.length() >= 1) { //just remove a character from the right of the string in the textfield
 						betString = betString.substring(0, betString.length()-1);
 					}
-					bet.setText(betString);
+					bet.setText(betString); 
 				}
 				
-				else if(e.getCode().toString().equals("ENTER")) {
-					if(!setBothDice(dice1, dice2)) {
+				else if(e.getCode().toString().equals("ENTER")) { //enter will trigger the roll dice button
+					if(!setBothDice(dice1, dice2)) { //this event handling mirrors the roll dice button
 						bet.setStyle(red);
 					} else {
-						clearFlag = true;
+						clearFlag = true; //set this to be true so that the next time the user presses a key, the textField will clear
 					}
 				}
 				
-				else if(e.getCode().isDigitKey()) {
-					if(clearFlag == true) {
-						betString = "";
-						bet.setText(betString);
-						clearFlag = false;
-					}
-					bet.setStyle(blank);
-					betString += e.getText();
+				else if(e.getCode().isDigitKey()) { //for valid numeric input
+					bet.setStyle(blank); //we need to ensure that the background turns white again
+					betString += e.getText(); //we add the valid input to our betString
 				} 
-				else {
-					clearFlag = true;
-					bet.setText("");
+				else { //for invalid input across the keyboard
+					clearFlag = true; //we need to ensure that we know that we clear the textField the next time input is entered
+					bet.setText(""); //clear the textField
 					bet.setStyle(red);
 				}
 				
@@ -202,20 +206,28 @@ public class DiceGUI extends Application{
 
 	}
 	
+	/*
+	 * This method represents rolling two dice and getting two random rolls. 
+	 * 
+	 * By taking in two labels with Dice graphics on them, this method will
+	 * set these graphics to randomly chosen dice graphics.
+	 */
 	private boolean setBothDice(Label dice1, Label dice2) {
 		
-		if(betString.length() == 0) {
+		if(betString.length() == 0) { //if the user did not enter any input, do nothing
 			return true;
 		}
 		
-		if(Integer.parseInt(betString) > 12 || Integer.parseInt(betString) < 2) {
-			clearFlag = true;
-			return false;
+		if(Integer.parseInt(betString) > 12 || Integer.parseInt(betString) < 2) { //if the user has invalid numeric input
+			clearFlag = true; //ensure that the field will be cleared
+			return false; //return false to show that we did not set both dice
 		}
 		
-		int dice1Val = setDice(dice1);
+		//call the setDice method which randomly changes one dice, representing a dice roll
+		int dice1Val = setDice(dice1); 
 		int dice2Val = setDice(dice2);
 		
+		//this method changes our results textField based on if the user bets correctly or not
 		if(Integer.parseInt(betString) == (dice1Val + dice2Val)) {
 			results.setText("You win.  You bet on " + betString + ", and the dice rolled " + betString + ".");
 		} else {
