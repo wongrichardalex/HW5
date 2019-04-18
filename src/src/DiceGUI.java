@@ -121,6 +121,7 @@ public class DiceGUI extends Application{
 		results.setFont(Font.font("Times New Roman", FontWeight.NORMAL, 20));
 		results.setPrefWidth(500);
 		results.setPrefHeight(40);
+		results.setEditable(false); //we don't want the user to be able to type anything into the results textfield
 
 		results.setBorder(new Border(new BorderStroke(Color.rgb(80, 80, 160, 1.0), BorderStrokeStyle.SOLID, new CornerRadii(3.0), BorderStroke.MEDIUM)));
 		
